@@ -54,6 +54,18 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
+      # Directory Permission
+      - name: Directory Permission
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: phpstan
+        run: ./vendor/bin/phpstan analyse !$memory-limit=1G
+
+      - name: phpinsights
+        run: |
+          php artisan insights !$no-interaction \
+          !$min-quality=90 !$min-complexity=90 \
+
       # Step 6: Run tests (optional)
       - name: Run tests
         run: php artisan test
