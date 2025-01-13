@@ -16,6 +16,10 @@ jobs:
           php-version: "8.2" # set php version
           extensions: mbstring, pdo, tokenizer, xml, bcmatch, ctype
           coverage: none
+      - name: Debug current directory
+        run: |
+          pwd
+          ls -la
       # Install Composer dependencies
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
