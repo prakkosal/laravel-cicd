@@ -13,7 +13,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # set php version
+          php-version: "8.2" # set php version
           extensions: mbstring, pdo, tokenizer, xml, bcmatch, ctype
           coverage: none
       # Install Composer dependencies
@@ -33,6 +33,3 @@ jobs:
       # Run Test
       - name: Run tests
         run: vendor/bin/phpunit
-
-
-
