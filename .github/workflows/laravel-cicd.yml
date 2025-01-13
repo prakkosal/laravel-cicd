@@ -18,7 +18,7 @@ jobs:
           coverage: none
       # Install Composer dependencies
       - name: Install dependencies
-        run: composer insall --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress --no-suggest
 
       #Generate application key
       - name: Generate App_key
@@ -33,6 +33,6 @@ jobs:
       # Run Test
       - name: Run tests
         run: vendor/bin/phpunit
-        
+
 
 
