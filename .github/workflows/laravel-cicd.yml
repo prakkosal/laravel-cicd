@@ -44,7 +44,7 @@ jobs:
 
       # Step 3: Install dependencies
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-scripts
+        run: composer install --prefer-dist --no-ansi --no-progress --no-scripts --no-interaction
 
       # Step 4: Set up environment file
       - name: Copy .env.example to .env
@@ -59,12 +59,14 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: phpstan
-        run: ./vendor/bin/phpstan analyse !$memory-limit=1G
+        run: ./vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: phpinsights
         run: |
-          php artisan insights !$no-interaction \
-          !$min-quality=90 !$min-complexity=90 \
+          php artisan insights --no-interaction \
+          --min-quality=90 --min-complexity=90 \
+          --min-architecture=90 --min-style=90 \
+          --ansi --format=github-action
 
       # Step 6: Run tests (optional)
       - name: Run tests
