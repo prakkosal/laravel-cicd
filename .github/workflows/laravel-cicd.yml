@@ -15,7 +15,7 @@ jobs:
     steps:
       # Step 1: Check out the repository
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       # Step 2: Set up PHP with Composer
       - name: Set up PHP
