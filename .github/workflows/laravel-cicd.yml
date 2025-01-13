@@ -59,7 +59,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: phpstan
-        run: ./vendor/bin/phpstan analyse --memory-limit=1G
+        run: ./vendor/bin/phpstan analyse app tests --memory-limit=1G
 
       - name: phpinsights
         run: |
