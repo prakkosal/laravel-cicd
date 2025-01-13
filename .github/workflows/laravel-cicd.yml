@@ -58,9 +58,11 @@ jobs:
       - name: Directory Permission
         run: chmod -R 777 storage bootstrap/cache
 
+      # Gives an output such as this if everything's : composer require --dev phpstan/phpstan
       - name: phpstan
         run: ./vendor/bin/phpstan analyse app tests --memory-limit=1G
 
+      # analysis tool I like to use is phpinsights : composer require nunomaduro/phpinsights --dev
       - name: phpinsights
         run: |
           php artisan insights --no-interaction \
