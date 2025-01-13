@@ -1,40 +1,43 @@
-name: laravel CI
+name: Laravel CI/CD
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  laravel-tests:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Set up php
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v3
-        with:
-          php-version: "8.2" # set php version
-          extensions: mbstring, pdo, tokenizer, xml, bcmatch, ctype
-          coverage: none
-      - name: Debug current directory
-        run: |
-          pwd
-          ls -la
-      # Install Composer dependencies
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-        working-directory: ./
+      # Step 1: Check out the repository
+      - name: Check out the repository
+        uses: actions/checkout@v3
 
-      #Generate application key
-      - name: Generate App_key
+      # Step 2: Set up PHP with Composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1" # Adjust to your Laravel PHP version
+          extensions: mbstring, bcmath, pdo, openssl
+          ini-values: post_max_size=256M, max_execution_time=300
+          coverage: none
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      # Step 4: Set up environment file
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
+
+      # Step 5: Generate application key
+      - name: Generate application key
         run: php artisan key:generate
 
-      #Set Up The Database
-      - name: Setup database
-        run: |
-          cp .env.example .env
-          php artisan migrate --seed
-
-      # Run Test
+      # Step 6: Run tests (optional)
       - name: Run tests
-        run: vendor/bin/phpunit
+        run: php artisan test
