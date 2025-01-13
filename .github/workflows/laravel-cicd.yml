@@ -1,0 +1,38 @@
+name: laravel CI
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Set up php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # set php version
+          extensions: mbstring, pdo, tokenizer, xml, bcmatch, ctype
+          coverage: none
+      # Install Composer dependencies
+      - name: Install dependencies
+        run: composer insall --prefer-dist --no-progress --no-suggest
+
+      #Generate application key
+      - name: Generate App_key
+        run: php artisan key:generate
+
+      #Set Up The Database
+      - name: Setup database
+        run: |
+          cp .env.example .env
+          php artisan migrate --seed
+
+      # Run Test
+      - name: Run tests
+        run: vendor/bin/phpunit
+        
+
+
