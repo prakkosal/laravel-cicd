@@ -75,7 +75,7 @@ jobs:
         run: php artisan test
       # ssh key
       - name: Set Up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -84,7 +84,7 @@ jobs:
       - name: Deploy to Server
         if: success()
         run: |
-          ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
+          ssh -o StrictHostKeyChecking=no user@157.245.157.100 << 'EOF'
           cd /var/www/html/laravel-cicd/
           git pull origin main
           composer install --no-dev --optimize-autoloader
