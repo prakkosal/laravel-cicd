@@ -90,10 +90,15 @@ jobs:
           cd /var/www/html/laravel-cicd/
           git pull origin main
           composer install --no-dev --optimize-autoloader
+          php artisan key:generate
           php artisan migrate --force
           php artisan config:cache
           php artisan route:cache
           php artisan view:caches
           //sudo systemctl restart php-fpm
+          sudo chown -R $USER:www-data storage
+          sudo chown -R $USER:www-data bootstrap/cache
+          sudo chmod -R 775 storage
+          sudo chmod -R 775 bootstrap/cache
           sudo systemctl restart nginx
           EOF
