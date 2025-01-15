@@ -37,7 +37,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2" # Updated to PHP 8.2
+          php-version: "8.2"
           extensions: mbstring, bcmath, pdo, openssl
           ini-values: post_max_size=256M, max_execution_time=300
           coverage: none
@@ -54,22 +54,38 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      # Directory Permission
+      # Step 6: Directory Permission
       - name: Directory Permission
         run: chmod -R 777 storage bootstrap/cache
 
-      # Gives an output such as this if everything's : composer require --dev phpstan/phpstan
-      - name: phpstan
+      # Step 7: Static analysis with PHPStan
+      - name: PHPStan Analysis
         run: ./vendor/bin/phpstan analyse app tests --memory-limit=1G
 
-      # analysis tool I like to use is phpinsights : composer require nunomaduro/phpinsights --dev
-      - name: phpinsights
+      # Step 8: Code insights with PHPInsights
+      - name: PHP Insights
         run: |
           php artisan insights --no-interaction \
           --min-quality=90 --min-complexity=90 \
           --min-architecture=90 --min-style=90 \
           --ansi --format=github-action
 
-      # Step 6: Run tests (optional)
+      # Step 9: Run tests
       - name: Run tests
         run: php artisan test
+
+      # Step 10: Deploy to Server
+      - name: Deploy to Server
+        if: success()
+        run: |
+          ssh -i ~/.ssh/id_rsa www-data@157.245.157.100 << 'EOF'
+            cd /var/www/html/laravel-cicd/
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            sudo systemctl restart php-fpm
+            sudo systemctl restart nginx
+          EOF
