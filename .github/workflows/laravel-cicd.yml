@@ -78,7 +78,7 @@ jobs:
       - name: Deploy to Server
         if: success()
         run: |
-          ssh -i ~/.ssh/id_rsa www-data@157.245.157.100 << 'EOF'
+          ssh -i ~/.ssh/learningLaravel www-data@157.245.157.100 << 'EOF'
             cd /var/www/html/laravel-cicd/
             git pull origin main
             composer install --no-dev --optimize-autoloader
