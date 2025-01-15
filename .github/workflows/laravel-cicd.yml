@@ -81,8 +81,8 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # step 11 Deployment application to server
-      #sshpass -p root@123Root ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
-      #ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
+      # sshpass -p root@123Root ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
+      # ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
       - name: Deploy to Server
         if: success()
         run: |
@@ -94,6 +94,6 @@ jobs:
           php artisan config:cache
           php artisan route:cache
           php artisan view:caches
-          // sudo systemctl restart php-fpm
+          //sudo systemctl restart php-fpm
           sudo systemctl restart nginx
           EOF
