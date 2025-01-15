@@ -78,19 +78,20 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      # Step 10: Deploy to Server
+
+      # Deployment application to server
       - name: Deploy to Server
         if: success()
         run: |
-          ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
+          ssh -o StrictHostKeyChecking=no user@157.245.157.100 << 'EOF'
 #          sshpass -p root@123Root ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
-            cd /var/www/html/laravel-cicd/
-            git pull origin main
-            composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-            // sudo systemctl restart php-fpm
-            sudo systemctl restart nginx
+          cd /var/www/html/laravel-cicd/
+          git pull origin main
+          composer install --no-dev --optimize-autoloader
+          php artisan migrate --force
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          // sudo systemctl restart php-fpm
+          sudo systemctl restart nginx
           EOF
