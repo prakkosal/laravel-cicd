@@ -74,11 +74,11 @@ jobs:
       - name: Run tests
         run: php artisan test
 
-      # Step 10: Set up SSH
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#      # Step 10: Set up SSH
+#      - name: Set up SSH
+#        uses: webfactory/ssh-agent@v0.9.0
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # step 11 Deployment application to server
       # sshpass -p root@123Root ssh -o StrictHostKeyChecking=no root@157.245.157.100 << 'EOF'
