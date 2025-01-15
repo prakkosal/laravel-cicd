@@ -73,12 +73,11 @@ jobs:
       # Step 9: Run tests
       - name: Run tests
         run: php artisan test
-
-      # Ssh key
+      # ssh key
       - name: Set Up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       # Step 10: Deploy to Server
       - name: Deploy to Server
         if: success()
